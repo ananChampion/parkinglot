@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common::commonHeader('用户管理')}"></head>
+
+<body>
+    <div class="container-scroller">
+        <div th:replace="common::topnav"></div>
+        <div class="container-fluid page-body-wrapper">
+            <div th:replace="common::sidebar"></div>
+            <div class="main-panel">
+                <div>
+                    <table border="2" >
+                        <tr><td>账号</td><td>姓名</td><td>车牌号</td><td>电话</td><td>操作</td></tr>
+                        <tr th:each="user:${users}">
+                            <td th:text="${user.getUAccount()}"></td>
+                            <td th:text="${user.getUName()}"></td>
+                            <td th:text="${user.getUCarnum()}"></td>
+                            <td th:text="${user.getUTel()}"></td>
+                            <td/> <a th:href="@{'/user/deleteById/'+${user.getUId()}}">删除</a>
+                            <a th:href="@{'/user/goUpdate/'+ ${user.getUId()}}">编辑</a>
+                            <a th:href="@{'/record/selectByCarnum/'+ ${user.getUCarnum()}}">停车记录</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div th:replace="common::footbar"></div>
+    </div>
+
+</body>
+</html>

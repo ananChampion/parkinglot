@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common::commonHeader('修改信息')}"></head>
+
+<body>
+
+
+<div class="container-scroller">
+    <div th:replace="common::topnav"></div>
+    <div class="container-fluid page-body-wrapper">
+        <div th:replace="common::sidebar"></div>
+        <div class="main-panel">
+            <form role="form" th:action="@{/user/update}" method="post">
+                账号:<input type="text" name="uAccount" id="uAccount" th:value="${User.UAccount}" readonly="readonly"><br>
+                密码：<input type="password" name="uPwd" id="uPwd" th:value="${User.UPwd}"><br>
+                姓名：<input type="text" name="uName" id="uName" th:value="${User.UName}"><br>
+                车牌号：<input type="text" name="uCarnum" id="uCarnum" th:value="${User.UCarnum}"><br>
+                电话号码：<input type="text" name="uTel" id="uTel" th:placeholder="${User.UTel}"><br>
+                <input type="hidden" name="uId" th:value="${User.UId}" >
+                <input type="hidden" name="uType" th:value="${User.UType}" >
+                <input type="submit" name="sign" value="修改">
+            </form>
+        </div>
+    </div>
+    <div th:replace="common::footbar"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common::commonHeader('智能停车场')}"></head>
+<body>
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth px-0">
+            <div class="row w-100 mx-0">
+                <div class="col-lg-4 mx-auto">
+                    <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                        <div class="brand-logo">
+                            <img th:src="@{/static/images/logo.svg}" alt="logo">
+                        </div>
+                        <h3 class="text-center">欢迎使用智慧停车场</h3>
+                        <div class="col-4 offset-4">
+                            <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                    title="入场或出场点击这里！" data-toggle-related="modal" data-target="#exampleModal">
+                                停车
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">停车</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-borderless text-center">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">
+                                                            <form th:action="@{/user/userType}">
+                                                                <input type="text" name="carnum" placeholder="请输入车牌号">
+                                                                <button type="submit">停车</button>
+                                                            </form>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" >
+                                                            或
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="text-center">
+                                                            <form th:action="@{/user/userType}">
+                                                                <input type="file" class="form-control-file" name="image" id="image">
+                                                            </form>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="table table-bordered" >
+                                <thead>
+                                    <tr class="text-center">
+                                        <th colspan="2"><h4>收费标准</h4></th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th scope="col">时间</th>
+                                        <th scope="col">收费标准</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="text-center">
+                                        <th scope="row">半小时内</th>
+                                        <td>免费</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th scope="row">半小时及以上</th>
+                                        <td>3元/半小时</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th scope="row">单日最高收费标准（连续停放）</th>
+                                        <td >50元/日</td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">注：本停车场不区分白天夜间时间段，停车场收费以半小时为计费单位，
+                                            不足半小时按半小时计算。车辆连续停放超过一日（24小时）的，以日为单位。</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-4 font-weight-light">
+                            想使用停车场管理系统？<a th:href="@{/user/goLogin}" class="text-primary">点击这里</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<!-- plugins:js -->
+<script th:src="@{/static/vendors/base/vendor.bundle.base.js}"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script th:src="@{/static/js/off-canvas.js}"></script>
+<script th:src="@{/static/js/hoverable-collapse.js}"></script>
+<script th:src="@{/static/js/template.js}"></script>
+<!-- endinject -->
+<script>
+    $('#myModal').on('shown.bs.modal', function () {
+        console.log("1");
+    })
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+</body>
+</html>

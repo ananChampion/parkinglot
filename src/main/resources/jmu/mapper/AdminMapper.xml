@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.mapper.AdminMapper">
+
+    <select id="queryAdmin" resultType="jmu.vo.Admin">
+        select * from Admin order by ad_id
+    </select>
+
+    <select id="adminLogin" resultType="jmu.vo.Admin" parameterType="java.util.HashMap">
+        select * from Admin where ad_id = #{adId} and ad_pwd = #{adPwd};
+    </select>
+</mapper>

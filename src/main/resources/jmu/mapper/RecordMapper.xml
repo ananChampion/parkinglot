@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.mapper.RecordMapper">
+    <!--
+    public List<Record> queryRecord();
+    public List<Record> queryRecordById();
+    public List<Record> selectByCarnum(String Carnum);
+    public Integer insertRecord(Record record);
+    public Integer insertTRecord(TempRecord tempRecord);
+    public TempRecord selectTRByCarnum(String Carnum);
+    public Integer deleteTRByCarnum(String Carnum);
+    public Integer deleteByCarnum(String Carnum);
+    !-->
+
+    <select id="queryRecord" resultType="jmu.vo.Record">
+        select * from Record order by r_intime desc;
+    </select>
+
+    <select id="queryTempRecord" resultType="jmu.vo.TempRecord">
+        select * from TempRecord order by t_intime desc;
+    </select>
+
+    <select id="queryRecordById" resultType="jmu.vo.Record">
+        select * from Record order by r_id desc;
+    </select>
+
+    <select id="selectByCarnum" parameterType="String" resultType="jmu.vo.Record">
+        select * from Record where r_carnum = #{carnum} order by r_intime desc;
+    </select>
+
+    <select id="selectTRByCarnum" parameterType="String" resultType="jmu.vo.TempRecord">
+        select * from TempRecord where t_carnum = #{carnum} order by t_intime desc;
+    </select>
+
+    <insert id="insertRecord" parameterType="jmu.vo.Record">
+        insert into Record values (null, #{rCarnum}, #{rIntime}, #{rOuttime});
+    </insert>
+
+    <insert id="insertTRecord" parameterType="jmu.vo.TempRecord">
+        insert into TempRecord values (null, #{tCarnum}, #{tIntime});
+    </insert>
+
+    <delete id="deleteTRByCarnum" parameterType="String">
+        delete from TempRecord where t_carnum = #{carnum};
+    </delete>
+
+    <delete id="deleteByCarnum" parameterType="String">
+        delete from Record where r_carnum = #{carnum};
+    </delete>
+
+    <delete id="deleteByRId" parameterType="Integer">
+        delete from Record where r_id = #{rId};
+    </delete>
+
+
+
+</mapper>

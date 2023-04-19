@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.mapper.UserMapper">
+    <select id="queryUser" resultType="jmu.vo.User">
+        select * from User;
+    </select>
+
+    <select id="userLogin" resultType="jmu.vo.User" parameterType="java.util.HashMap">
+        select * from User where u_account = #{uAccount} and u_pwd = #{uPwd};
+    </select>
+
+    <select id="selectByAccount" parameterType="String" resultType="jmu.vo.User">
+        select * from User where u_account = #{uAccount};
+    </select>
+
+    <select id="selectById" parameterType="Integer" resultType="jmu.vo.User">
+        select * from User where u_id = #{uId};
+    </select>
+
+    <select id="selectByCarnum" parameterType="String" resultType="jmu.vo.User">
+        select * from User where u_carnum = #{uCarnum};
+    </select>
+
+    <select id="selectByType" parameterType="Integer" resultType="jmu.vo.User">
+        select * from User where u_type = #{type};
+    </select>
+
+    <insert id="insertUser" parameterType="jmu.vo.User" >
+        insert into User values (null, #{uAccount}, #{uPwd}, #{uCarnum}, #{uTel}, #{uType}, #{uName});
+    </insert>
+
+    <update id="updateUser" parameterType="jmu.vo.User">
+        update User set u_pwd = #{uPwd}, u_name = #{uName}, u_carnum = #{uCarnum}, u_Tel = #{uTel} where u_id = #{uId};
+    </update>
+
+    <delete id="deleteByUId" parameterType="Integer">
+        delete from User where u_id = #{uId};
+    </delete>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.mapper.PaymentMapper">
+    <!--
+    public List<Payment> queryPayment();
+    public List<Payment> queryPaymentByRid(List<Integer> rIdList);
+    public List<Payment> selectByRId(Integer rId);
+    public Integer insert(Payment payment);
+    public Integer delete(Payment payment);
+    !-->
+
+    <select id="queryPayment" resultType="jmu.vo.Payment">
+        select * from Payment order by r_id desc ;
+    </select>
+
+    <select id="queryPaymentByRid" resultType="jmu.vo.Payment" parameterType="list">
+        select * from Payment where r_id in
+    <foreach collection="list" item="rIdList" open="(" separator="," close=")" index="index">
+        #{rIdList}
+    </foreach>
+        order by r_id;
+    </select>
+
+    <select id="selectByRId" parameterType="Integer" resultType="jmu.vo.Payment">
+        select * from Payment where r_id = #{rId};
+    </select>
+
+    <insert id="insert" parameterType="jmu.vo.Payment">
+        insert into Payment values (null, #{rId}, #{pSum}, #{pTime}, #{pMethod});
+    </insert>
+
+    <delete id="delete" parameterType="Integer">
+        delete from Payment where r_id = #{rId};
+    </delete>
+
+</mapper>

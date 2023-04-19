@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link href="./">
+</head>
+<body>
+<h2>管理员</h2>
+<table border="2">
+    <tr><td>管理员id</td><td>密码</td><td>删除</td></tr>
+    <tr th:each="admin:${adminList}">
+        <td th:text="${admin.adId}"></td>
+        <td th:text="${admin.adPwd}"></td>
+        <td> </td>
+    </tr>
+</table>
+</body>
+</html>

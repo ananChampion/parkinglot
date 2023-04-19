@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common::commonHeader('')}"></head>
+<body>
+
+<div class="container-scroller">
+
+    <div class="container-fluid page-body-wrapper">
+
+        <div class="main-panel">
+            <h1 class="text-center text-white bg-info p-2">支付明细</h1>
+            <form th:action="@{/pay/insert}">
+                <div class="form-group">
+                    <label for="car_number">车牌号:</label>
+                    <input type="text" class="form-control" id="car_number" name="carnum" readonly="readonly" th:value="${record.getRCarnum()}">
+                </div>
+
+                <div class="form-group">
+                    <label for="entry_time">入场时间:</label>
+                    <input type="time" class="form-control" id="entry_time" name="inTime" readonly="readonly" th:value="${record.getRIntime()}">
+                </div>
+
+                <div class="form-group">
+                    <label for="exit_time">出场时间:</label>
+                    <input class="form-control" id="exit_time" name="outTime" readonly="readonly" th:value="${record.getROuttime()}">
+                </div>
+
+                <div class="form-group">
+                    <label for="parking_duration">停车时长（小时）:</label>
+                    <input type="text" class="form-control" id="parking_duration" name="parkingDuration" readonly="readonly" th:value="${time}">
+                </div>
+
+                <div class="form-group">
+                    <label for="total_amount">总金额:</label>
+                    <input type="text" class="form-control" id="total_amount" name="pSum" readonly="readonly" th:value="${pSum}">
+                </div>
+
+                <div class="form-group">
+                    <label for="payment_method">支付方式:</label>
+                    <select id="payment_method" name="pMethod" >
+                        <option value="" selected disabled hidden>请选择支付方式</option>
+                        <option value="支付宝">支付宝</option>
+                        <option value="微信">微信</option>
+                        <option value="现金">现金</option>
+                    </select>
+                </div>
+                <input type="hidden" name="rId" th:value="${record.getRId()}">
+                <button type="submit" class="btn btn-primary">支付</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

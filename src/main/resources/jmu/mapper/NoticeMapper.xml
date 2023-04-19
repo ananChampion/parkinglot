@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jmu.mapper.NoticeMapper">
+    <!--
+    public List<Notice> queryNotice();
+    public Notice selectByNId(Integer nId);
+    public Integer insertNotice(Notice notice);
+    public Integer deleteByNId(Integer nId);
+    public Integer updateNotice(Notice notice);
+    !-->
+    <select id="queryNotice" resultType="jmu.vo.Notice">
+        select * from Notice order by n_time desc ;
+    </select>
+
+    <select id="selectByNId" parameterType="Integer" resultType="jmu.vo.Notice">
+        select * from Notice where n_id = #{nId};
+    </select>
+
+    <insert id="insertNotice" parameterType="jmu.vo.Notice">
+        insert into Notice values (null, #{nTitle}, #{nText}, #{nTime});
+    </insert>
+
+    <delete id="deleteByNId" parameterType="Integer">
+        delete from Notice where n_id = #{nId};
+    </delete>
+
+    <update id="updateNotice" parameterType="jmu.vo.Notice">
+        update Notice set n_title = #{nTitle}, n_text = #{nText}, n_time = #{nTime} where n_id = #{nId};
+    </update>
+
+</mapper>

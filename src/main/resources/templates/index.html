@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common::commonHeader('主页')}"></head>
+
+<body>
+    <div class="container-scroller">
+        <div th:replace="common::topnav"></div>
+        <div class="container-fluid page-body-wrapper">
+            <div th:replace="common::sidebar"></div>
+            <div class="main-panel">
+                <table class="table table-bordered" th:if="${session.Admin != null}">
+                    <thead class="thead-default">
+                    <tr class="text-center">
+                        <th scope="col">编号</th><th scope="col">车牌号</th><th scope="col">入场时间</th><th scope="col">出场时间</th><th scope="col">停车费（元）</th><th scope="col">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="record:${records}" class="text-center">
+                        <th class="col-md-1" scope="row" th:text="${records.indexOf(record)} + 1"></th>
+                        <td th:text="${record.getRCarnum()}"></td>
+                        <td th:text="${record.getRIntime()}"></td>
+                        <td th:text="${record.getROuttime()}"></td>
+                        <td th:text="0"></td>
+                        <td/> <a th:href="@{'pay/delete/'+${record.getRId()}}">删除</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered" th:if="${session.User != null}">
+                    <thead class="thead-default">
+                    <tr class="text-center">
+                        <th scope="col">编号</th><th scope="col">入场时间</th><th scope="col">出场时间</th><th scope="col">停车费（元）</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="record:${records}" class="text-center">
+                        <th class="col-md-1" scope="row" th:text="${records.indexOf(record)} + 1"></th>
+                        <td th:text="${record.getRIntime()}"></td>
+                        <td th:text="${record.getROuttime()}"></td>
+                        <td th:text="${payments[records.indexOf(record)].getPSum()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+
+        </div>
+        <div th:replace="common::footbar"></div>
+    </div>
+
+
+
+</body>
+</html>
