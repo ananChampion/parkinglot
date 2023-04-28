@@ -1,5 +1,6 @@
 package jmu.controller;
 
+import jmu.service.PlateRecognitionService;
 import jmu.service.UserService;
 import jmu.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +25,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PlateRecognitionService plateRecognitionService;
 
     //跳转到登录页面
     @RequestMapping("/goLogin")
@@ -53,8 +58,8 @@ public class UserController {
     }
 
     //测试
-    @RequestMapping("test")
-    private String goTest() { return "test"; }
+    @RequestMapping("/test")
+    private String goTest() { return "chart"; }
 
     //登录
     @RequestMapping("/login")
@@ -73,8 +78,7 @@ public class UserController {
             System.out.println(user);
             request.getSession().setAttribute("User",user);
             request.getSession().removeAttribute("msg");
-            return "redirect:/record/selectRecord";
-            //TODO:跳转到selectRecord找到自己车的记录，并且找到消费记录（内部人员没有）
+            return "redirect:/record/selectRecord/index";
         }
         else {
             message.addAttribute("msg","用户名或密码错误");
@@ -92,7 +96,7 @@ public class UserController {
         if (num == 1)
         {
             request.getSession().setAttribute("User",user);
-            return "redirect:index.html";
+            return "redirect:/record/selectRecord/index";
             //TODO:跳转到selectRecord找到自己车的记录，并且找到消费记录（内部人员没有）
         }
         else {
@@ -110,7 +114,7 @@ public class UserController {
         //TODO:错误信息提示（登录、注册、修改）
         Integer num = this.userService.updateUser(user);
         if (num == 1) {
-            return "redirect:index.html";
+            return "redirect:/record/selectRecord/index";
         }
         else{
             return "redirect:/user/goUpdate";
@@ -122,7 +126,7 @@ public class UserController {
     private String queryAll(HttpServletRequest request, @PathVariable("type") Integer type, Model model){
         //根据type来判断查找User的类型，再返回
         List<User> users = this.userService.selectByType(type);
-        String typeName = new String();
+        String typeName = "";
         if (type == 1){
             typeName = "职工";
         }
@@ -138,7 +142,6 @@ public class UserController {
     //删除
     @RequestMapping("/deleteById/{uId}")
     private String deleteById(@PathVariable("uId") Integer uId, Model message){
-        Integer type = this.userService.selectById(uId).getUType();
         Integer num = this.userService.deleteByUId(uId);
         if (num == 1) {
             message.addAttribute("msg","删除成功");
@@ -146,12 +149,8 @@ public class UserController {
         else {
             message.addAttribute("msg","删除失败");
         }
-        if (type == 1) {
-            return "redirect:/user/queryAll/1";
-        }
-        else {
-            return "redirect:/user/queryAll/2";
-        }
+
+        return "redirect:/user/queryAll/2";
 
     }
 
@@ -165,19 +164,36 @@ public class UserController {
     //查询用户类型
     @RequestMapping(value = "/userType")
     private String userType(@RequestParam("carnum") String carnum, RedirectAttributes attributes){
-        if(carnum == "")
+        if(carnum.equals(""))
         {
             return "home";
         } else {
-          System.out.println(carnum);
-          User user = this.userService.selectByCarnum(carnum);
-          if (user == null || user.getUType() == 2) {
+            System.out.println(carnum);
+            User user = this.userService.selectByCarnum(carnum);
+            if (user == null || user.getUType() == 2) {
             attributes.addFlashAttribute("flag", 2);
-          } else {
+            } else {
             attributes.addFlashAttribute("flag", 1);
-          }
-          attributes.addFlashAttribute("carnum", carnum);
-          return "redirect:/record/insertRecord";
+            }
+            attributes.addFlashAttribute("carnum", carnum);
+            return "redirect:/record/insertRecord";
+        }
+    }
+
+    @RequestMapping(value = "/recognition", method = RequestMethod.POST)
+    private String rec(HttpServletRequest request, @RequestParam("image") MultipartFile image, Model model){
+        try {
+            byte[] imageBytes = image.getBytes();
+            String carnum = this.plateRecognitionService.recognizePlate(imageBytes);
+            if (carnum.equals("未识别到车牌"))
+            {
+                model.addAttribute("errormsg", "未识别到车牌，请输入车牌号");
+            } else {
+                model.addAttribute("carnum", carnum);
+            }
+            return "home";
+        } catch (IOException e) {
+            throw new RuntimeException("上传失败", e);
         }
     }
 

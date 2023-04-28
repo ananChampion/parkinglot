@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common::commonHeader('智能停车场管理系统')}">
+</head>
+<body>
+
+<div class="container-scroller">
+    <div th:replace="common::topnav"></div>
+    <div class="container-fluid page-body-wrapper">
+        <div th:replace="common::sidebar"></div>
+        <div class="main-panel">
+            <div class="d-flex m-4 flex-column">
+                <div id="chart1" style="width: 80%;height: 300px" class="mx-auto mt-2" ></div>
+                <div id="chart2" style="width: 80%;height: 300px" class="mx-auto"></div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="common::footbar"></div>
+</div>
+</body>
+<script type="text/javascript">
+    chart1();
+    chart2();
+
+    function chart1() {
+        var chartDom = document.getElementById('chart1');
+        var myChart = echarts.init(chartDom);
+        var option;
+        var arr1=[]
+        var arr2=[]
+        // 基于准备好的dom，初始化echarts实例
+        //main是<div id="main" style="width: 600px;height:400px;"></div>的id
+
+        // 指定图表的配置项和数据
+        $.get("/record/recordCount",function(result){
+            $.each(result,function (index,item) {
+                arr1.push(item.dayTime)
+                arr2.push(item.dayCount);
+
+            })
+            option={
+                title: {
+                    left: 'center',
+                    text:'近30日停车数量折线图'
+                },
+                tooltip: {
+                    trigger:'item',
+                    formatter: '{c}辆'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: arr1
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        data: arr2,
+                        type: 'line',
+                        smooth: true,
+                        itemStyle:{
+                            color: 'blue'
+                        }
+                    }
+                ],
+                axisTick: {
+                    show: false,
+                    splitNumber: 1
+                },
+
+                dataZoom: [ //滑动条
+                    {
+                        show: true, //是否显示滑动条
+                        type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                        startValue: arr1[0],
+                        endValue:arr1[arr1.length]// 从头开始。
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        })
+        // 使用刚指定的配置项和数据显示图表。
+    }
+
+    function chart2() {
+        var chartDom = document.getElementById('chart2');
+        var myChart = echarts.init(chartDom);
+        var option;
+        var arr1=[]
+        var arr2=[]
+        // 基于准备好的dom，初始化echarts实例
+        //main是<div id="main" style="width: 600px;height:400px;"></div>的id
+
+        // 指定图表的配置项和数据
+        $.get("/pay/paymentSum",function(result){
+            $.each(result,function (index,item) {
+                arr1.push(item.dayTime)
+                arr2.push(item.daySum);
+
+            })
+            option={
+                title: {
+                    left: 'center',
+                    text:'近30日停车收费柱状图'
+                },
+                tooltip: {
+                    trigger:'item',
+                    formatter: '{c}元'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: arr1
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        data: arr2,
+                        type: 'bar',
+                        itemStyle:{
+                            color: 'blue'
+                        }
+                    }
+                ],
+                axisTick: {
+                    show: false,
+                    splitNumber: 3
+                },
+
+                dataZoom: [ //滑动条
+                    {
+                        show: true, //是否显示滑动条
+                        type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                        startValue: arr1[0],
+                        endValue:arr1[arr1.length]// 从头开始。
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        })
+        // 使用刚指定的配置项和数据显示图表。
+    }
+
+
+</script>
+</html>

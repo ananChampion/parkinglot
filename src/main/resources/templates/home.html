@@ -11,56 +11,53 @@
                         <div class="brand-logo">
                             <img th:src="@{/static/images/logo.svg}" alt="logo">
                         </div>
-                        <h3 class="text-center">欢迎使用智慧停车场</h3>
-                        <div class="col-4 offset-4">
-                            <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
-                                    title="入场或出场点击这里！" data-toggle-related="modal" data-target="#exampleModal">
-                                停车
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">停车</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <table class="table table-borderless text-center">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="2">
-                                                            <form th:action="@{/user/userType}">
-                                                                <input type="text" name="carnum" placeholder="请输入车牌号">
-                                                                <button type="submit">停车</button>
-                                                            </form>
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th colspan="2" >
-                                                            或
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th colspan="2" class="text-center">
-                                                            <form th:action="@{/user/userType}">
-                                                                <input type="file" class="form-control-file" name="image" id="image">
-                                                            </form>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <h3 class="text-center">欢迎使用智能停车场</h3>
+                        <div class="d-flex justify-content-center row">
+                            <div th:if="${msg}" class="mx-auto alert alert-success" role="alert">
+                                <span th:text="${msg}"></span>
+                            </div>
+                            <div th:if="${errormsg}" class="mx-auto alert alert-danger" role="alert">
+                                <span th:text="${errormsg}"></span>
+                            </div>
+                            <div class="mx-auto">
+                                <form th:action="@{/user/userType}" class="form-inline">
+                                    <div class="form-group mx-sm-0 mb-2 col-9">
+                                        <input style="width: 100%" type="text" name="carnum" maxlength="8" class="form-control" th:value="${carnum}" placeholder="请输入车牌号或通过图片识别">
+                                    </div>
+                                    <button type="submit" class="btn mb-2 btn-primary">停车</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="mx-auto mb-2">
+                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                                    上传图片
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">停车</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form method="post" th:action="@{/user/recognition}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <input type="file" class="form-control-file" name="image" id="image">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                                <button type="submit" class="btn btn-primary">上传</button>
+                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div>
                             <table class="table table-bordered" >
                                 <thead>

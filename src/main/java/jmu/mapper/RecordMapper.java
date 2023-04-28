@@ -1,5 +1,6 @@
 package jmu.mapper;
 
+import jmu.vo.DayRecord;
 import jmu.vo.Record;
 import jmu.vo.TempRecord;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,5 +21,8 @@ public interface RecordMapper {
     public Integer deleteTRByCarnum(String carnum);
     public Integer deleteByCarnum(String carnum);
     public Integer deleteByRId(Integer rId);
+    public List<TempRecord> selectBySend(Boolean tSend);
+    public Integer updateTempRecord(TempRecord tempRecord);
+    public List<DayRecord> selectRecordNumByDay();
 
 }

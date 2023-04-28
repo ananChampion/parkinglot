@@ -2,6 +2,7 @@ package jmu.service.impl;
 
 import jmu.mapper.PaymentMapper;
 import jmu.service.PaymentService;
+import jmu.vo.DayPayment;
 import jmu.vo.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,15 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Integer delete(Integer rId) {
         return this.paymentMapper.delete(rId);
+    }
+
+    @Override
+    public Integer update(Payment payment) {
+        return this.paymentMapper.update(payment);
+    }
+
+    @Override
+    public List<DayPayment> selectSumByDay() {
+        return this.paymentMapper.selectSumByDay();
     }
 }

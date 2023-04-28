@@ -11,7 +11,7 @@
     public Integer updateNotice(Notice notice);
     !-->
     <select id="queryNotice" resultType="jmu.vo.Notice">
-        select * from Notice order by n_time desc ;
+        select * from Notice order by n_id desc ;
     </select>
 
     <select id="selectByNId" parameterType="Integer" resultType="jmu.vo.Notice">
@@ -19,7 +19,7 @@
     </select>
 
     <insert id="insertNotice" parameterType="jmu.vo.Notice">
-        insert into Notice values (null, #{nTitle}, #{nText}, #{nTime});
+        insert into Notice values (null, #{nTitle}, #{nText}, #{nTime}, 0);
     </insert>
 
     <delete id="deleteByNId" parameterType="Integer">
@@ -29,5 +29,13 @@
     <update id="updateNotice" parameterType="jmu.vo.Notice">
         update Notice set n_title = #{nTitle}, n_text = #{nText}, n_time = #{nTime} where n_id = #{nId};
     </update>
+
+    <insert id="insertNoticeForUser" parameterType="jmu.vo.Notice">
+        insert into Notice values (null, #{nTitle}, #{nText}, #{nTime}, #{nUId});
+    </insert>
+
+    <select id="selectByNUId" parameterType="Integer" resultType="jmu.vo.Notice">
+        select * from Notice where n_uid = #{nUId} order by n_id desc;
+    </select>
 
 </mapper>

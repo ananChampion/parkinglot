@@ -9,18 +9,28 @@
         <div class="container-fluid page-body-wrapper">
             <div th:replace="common::sidebar"></div>
             <div class="main-panel">
-                <div>
-                    <table border="2" >
-                        <tr><td>账号</td><td>姓名</td><td>车牌号</td><td>电话</td><td>操作</td></tr>
-                        <tr th:each="user:${users}">
-                            <td th:text="${user.getUAccount()}"></td>
-                            <td th:text="${user.getUName()}"></td>
-                            <td th:text="${user.getUCarnum()}"></td>
-                            <td th:text="${user.getUTel()}"></td>
-                            <td/> <a th:href="@{'/user/deleteById/'+${user.getUId()}}">删除</a>
-                            <a th:href="@{'/user/goUpdate/'+ ${user.getUId()}}">编辑</a>
-                            <a th:href="@{'/record/selectByCarnum/'+ ${user.getUCarnum()}}">停车记录</a></td>
-                        </tr>
+                <div class="d-flex m-4">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">编号</th><th scope="col">账号</th><th scope="col">姓名</th><th scope="col">车牌号</th>
+                                <th scope="col">电话</th><th scope="col">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user:${users}" class="text-center">
+                                <th scope="row" th:text="${users.indexOf(user)} + 1"></th>
+                                <td th:text="${user.getUAccount()}"></td>
+                                <td th:text="${user.getUName()}"></td>
+                                <td th:text="${user.getUCarnum()}"></td>
+                                <td th:text="${user.getUTel()}"></td>
+                                <td>
+                                    <a class="btn btn-primary" type="button" th:href="@{'/user/goUpdate/'+ ${user.getUId()}}">编辑</a>
+                                    <a class="btn btn-secondary ml-2" type="button" th:href="@{'/record/selectByCarnum/'+ ${user.getUCarnum()}}">停车记录</a>
+                                    <a class="btn btn-danger ml-2" type="button" th:if="${user.getUType() == 2}" th:href="@{'/user/deleteById/'+${user.getUId()}}">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

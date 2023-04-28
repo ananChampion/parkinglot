@@ -1,5 +1,6 @@
 package jmu.mapper;
 
+import jmu.vo.DayPayment;
 import jmu.vo.Payment;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -52,5 +53,11 @@ class PaymentMapperTest {
         rIdList.add(2);
         List<Payment> payments = this.paymentMapper.queryPaymentByRid(rIdList);
     System.out.println(payments);
+    }
+
+    @Test
+    void chart(){
+        List<DayPayment> list = this.paymentMapper.selectSumByDay();
+    System.out.println(list);
     }
 }

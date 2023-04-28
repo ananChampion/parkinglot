@@ -17,4 +17,6 @@ public class TempRecord {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date tIntime;//车辆入场时间
 
+    private Boolean tSend;//是否发过通知
+
 }

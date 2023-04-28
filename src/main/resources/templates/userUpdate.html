@@ -1,26 +1,47 @@
 <!doctype html>
 <html lang="cn" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{common::commonHeader('修改信息')}"></head>
-
 <body>
-
-
 <div class="container-scroller">
     <div th:replace="common::topnav"></div>
     <div class="container-fluid page-body-wrapper">
         <div th:replace="common::sidebar"></div>
         <div class="main-panel">
-            <form role="form" th:action="@{/user/update}" method="post">
-                账号:<input type="text" name="uAccount" id="uAccount" th:value="${User.UAccount}" readonly="readonly"><br>
-                密码：<input type="password" name="uPwd" id="uPwd" th:value="${User.UPwd}"><br>
-                姓名：<input type="text" name="uName" id="uName" th:value="${User.UName}"><br>
-                车牌号：<input type="text" name="uCarnum" id="uCarnum" th:value="${User.UCarnum}"><br>
-                电话号码：<input type="text" name="uTel" id="uTel" th:placeholder="${User.UTel}"><br>
-                <input type="hidden" name="uId" th:value="${User.UId}" >
-                <input type="hidden" name="uType" th:value="${User.UType}" >
-                <input type="submit" name="sign" value="修改">
-            </form>
+            <div class="d-flex align-items-center px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-6 mx-auto">
+                        <div class="text-left py-2 px-4 px-sm-5">
+                            <form th:action="@{/user/update}" method="post">
+                                <div class="form-group">
+                                    <label for="uAccount" style="font-size: large">账号</label>
+                                    <input type="text" class="form-control" name="uAccount" id="uAccount" th:value="${User.UAccount}" readonly="readonly"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="uPwd" style="font-size: large">密码</label>
+                                    <input type="password" class="form-control" name="uPwd" id="uPwd" th:value="${User.UPwd}"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="uName" style="font-size: large">姓名</label>
+                                    <input type="text" class="form-control" name="uName" id="uName" th:value="${User.UName}"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="uCarnum" style="font-size: large">车牌号</label>
+                                    <input type="text" class="form-control" name="uCarnum" id="uCarnum" th:value="${User.UCarnum}"><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="uTel" style="font-size: large">电话号码</label>
+                                    <input type="text" class="form-control" name="uTel" id="uTel" th:value="${User.UTel}"><br>
+                                </div>
+                                <input type="hidden" name="uId" th:value="${User.UId}" >
+                                <input type="hidden" name="uType" th:value="${User.UType}" >
+                                <div class="mx-auto text-center">
+                                <button type="submit" class="btn btn-primary">修改</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div th:replace="common::footbar"></div>

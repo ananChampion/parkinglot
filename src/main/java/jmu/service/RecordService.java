@@ -1,5 +1,6 @@
 package jmu.service;
 
+import jmu.vo.DayRecord;
 import jmu.vo.Record;
 import jmu.vo.TempRecord;
 
@@ -16,4 +17,9 @@ public interface RecordService {
     public Integer deleteTRByCarnum(String carnum);
     public Integer deleteByCarnum(String carnum);
     public Integer deleteByRId(Integer rId);
+    public List<TempRecord> selectBySend(Boolean tSend);
+    public Integer updateTempRecord(TempRecord tempRecord);
+    public List<DayRecord> selectRecordNumByDay();
+
+
 }

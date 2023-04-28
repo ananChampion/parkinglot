@@ -17,4 +17,6 @@ public class Notice {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date nTime;//发布时间
+
+    private Integer nUId;//能看间通知的用户id，如果为0，则所有用户均能看见
 }

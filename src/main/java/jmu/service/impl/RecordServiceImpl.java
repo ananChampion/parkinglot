@@ -2,6 +2,7 @@ package jmu.service.impl;
 
 import jmu.mapper.RecordMapper;
 import jmu.service.RecordService;
+import jmu.vo.DayRecord;
 import jmu.vo.Record;
 import jmu.vo.TempRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ public class RecordServiceImpl implements RecordService {
     public List<TempRecord> queryTempRecord() {
         return this.recordMapper.queryTempRecord();
     }
-
 
     @Override
     public List<Record> queryRecordById() {
@@ -66,5 +66,20 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Integer deleteByRId(Integer rId) {
         return this.recordMapper.deleteByRId(rId);
+    }
+
+    @Override
+    public List<TempRecord> selectBySend(Boolean tSend) {
+        return this.recordMapper.selectBySend(tSend);
+    }
+
+    @Override
+    public Integer updateTempRecord(TempRecord tempRecord) {
+        return this.recordMapper.updateTempRecord(tempRecord);
+    }
+
+    @Override
+    public List<DayRecord> selectRecordNumByDay() {
+        return this.recordMapper.selectRecordNumByDay();
     }
 }

@@ -69,15 +69,12 @@ public class AdminController {
         {
             System.out.println(admin);
             request.getSession().setAttribute("Admin",admin);
-
-            return "redirect:/record/selectRecord";
-            //跳转到select,查找所有停车记录
+            return "redirect:/admin/goChart";
         }
         else {
             message.addAttribute("msg","用户名或密码错误");
             return "redirect:/admin/goLogin";
         }
-
     }
 
     //退出登录
@@ -86,6 +83,11 @@ public class AdminController {
         request.getSession().removeAttribute("Admin");
         request.getSession().removeAttribute("msg");
         return "redirect:/admin/goLogin";
+    }
+
+    @RequestMapping("/goChart")
+    private String goChart(){
+        return "chart";
     }
 
 

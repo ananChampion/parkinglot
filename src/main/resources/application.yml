@@ -33,5 +33,15 @@ logging:
   level:
     jmu.mapper: debug
 
+# 配置 RestTemplate
+restTemplate:
+  # 设置连接超时时间为 5 秒
+  connect-timeout: 5000
+  # 设置读取超时时间为 10 秒
+  read-timeout: 10000
+
+api:
+  url: http://localhost:5000/LPR
+
 
 

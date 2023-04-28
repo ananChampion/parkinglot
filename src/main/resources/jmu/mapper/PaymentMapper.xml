@@ -35,4 +35,12 @@
         delete from Payment where r_id = #{rId};
     </delete>
 
+    <update id="update" parameterType="jmu.vo.Payment">
+        update Payment set p_method = #{pMethod}, p_time = #{pTime} where p_id = #{pId};
+    </update>
+
+    <select id="selectSumByDay" resultType="jmu.vo.DayPayment">
+        select DATE_FORMAT(p_time, '%Y-%m-%d') as dayTime, sum(p_sum) as daySum from Payment where p_time >= DATE_SUB(CURRENT_DATE (), INTERVAL  30 DAY ) group by dayTime;
+    </select>
+
 </mapper>

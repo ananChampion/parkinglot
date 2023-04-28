@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="cn" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{common::commonHeader('主页')}"></head>
+<head th:replace="~{common::commonHeader('停车记录')}"></head>
 
 <body>
     <div class="container-scroller">
@@ -8,43 +8,39 @@
         <div class="container-fluid page-body-wrapper">
             <div th:replace="common::sidebar"></div>
             <div class="main-panel">
-                <table class="table table-bordered" th:if="${session.Admin != null}">
-                    <thead class="thead-default">
-                    <tr class="text-center">
-                        <th scope="col">编号</th><th scope="col">车牌号</th><th scope="col">入场时间</th><th scope="col">出场时间</th><th scope="col">停车费（元）</th><th scope="col">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="record:${records}" class="text-center">
-                        <th class="col-md-1" scope="row" th:text="${records.indexOf(record)} + 1"></th>
-                        <td th:text="${record.getRCarnum()}"></td>
-                        <td th:text="${record.getRIntime()}"></td>
-                        <td th:text="${record.getROuttime()}"></td>
-                        <td th:text="0"></td>
-                        <td/> <a th:href="@{'pay/delete/'+${record.getRId()}}">删除</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <table class="table table-bordered" th:if="${session.User != null}">
-                    <thead class="thead-default">
-                    <tr class="text-center">
-                        <th scope="col">编号</th><th scope="col">入场时间</th><th scope="col">出场时间</th><th scope="col">停车费（元）</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="record:${records}" class="text-center">
-                        <th class="col-md-1" scope="row" th:text="${records.indexOf(record)} + 1"></th>
-                        <td th:text="${record.getRIntime()}"></td>
-                        <td th:text="${record.getROuttime()}"></td>
-                        <td th:text="${payments[records.indexOf(record)].getPSum()}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-
-
+                <div class="d-flex flex-row m-4 mb-0"  th:if="${session.Admin != null}">
+                    <div>
+                        <a th:href="@{/record/export}" class="btn btn-success">导出报表</a>
+                    </div>
+                    <div class="col-5">
+                        <form class="form-inline">
+                            <div class="form-group mx-sm-0 mb-2 col-9">
+                                <input style="width: 100%" type="text" name="carnum" maxlength="8" class="form-control" placeholder="请输入要查询的车牌号">
+                            </div>
+                            <button type="submit" class="btn mb-2 btn-primary">搜索</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="d-flex m-4">
+                    <table class="table table-bordered">
+                        <thead class="thead-default">
+                            <tr class="text-center">
+                                <th scope="col">编号</th><th th:if="${session.Admin != null}" scope="col">车牌号</th><th scope="col">入场时间</th><th scope="col">出场时间</th><th scope="col">停车费（元）</th><th th:if="${session.Admin != null}" scope="col">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="record:${records}" class="text-center">
+                                <th class="col-md-1" scope="row" th:text="${records.indexOf(record)} + 1"></th>
+                                <td th:text="${record.getRCarnum()}"></td>
+                                <td th:text="${#dates.format(record.getRIntime(), 'yyyy年MM月dd日 HH:mm:ss')}"></td>
+                                <td th:text="${#dates.format(record.getROuttime(), 'yyyy年MM月dd日 HH:mm:ss')}"></td>
+                                <td th:text="${payments[records.indexOf(record)].getPSum()}"></td>
+                                <td th:if="${session.Admin != null}"> <a class="btn btn-danger" type="button" th:href="@{'/pay/delete/'+${record.getRId()}}">删除</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
         </div>
         <div th:replace="common::footbar"></div>
     </div>

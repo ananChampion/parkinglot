@@ -1,6 +1,8 @@
 package jmu.mapper;
 
 import jmu.Util.DateTimeUtil;
+import jmu.service.PlateRecognitionService;
+import jmu.vo.DayRecord;
 import jmu.vo.Record;
 import jmu.vo.TempRecord;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,8 @@ class RecordMapperTest {
 
   @Autowired
   private RecordMapper recordMapper;
+  @Autowired
+  private PlateRecognitionService plateRecognitionService;
 
   @Test
   void queryRecord() {
@@ -99,5 +103,16 @@ class RecordMapperTest {
       Integer rId = 6;
       Integer num = this.recordMapper.deleteByRId(rId);
       System.out.println(num);
+  }
+
+  @Test
+  void api(){
+    System.out.println(this.plateRecognitionService.testAPI());
+  }
+
+  @Test
+  void count(){
+      List<DayRecord> dayRecords = this.recordMapper.selectRecordNumByDay();
+    System.out.println(dayRecords);
   }
 }

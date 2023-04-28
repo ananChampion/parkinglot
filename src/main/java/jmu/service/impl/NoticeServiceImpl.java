@@ -39,4 +39,14 @@ public class NoticeServiceImpl implements NoticeService {
     public Integer updateNotice(Notice notice) {
         return this.noticeMapper.updateNotice(notice);
     }
+
+    @Override
+    public Integer insertNoticeForUser(Notice notice) {
+        return this.noticeMapper.insertNoticeForUser(notice);
+    }
+
+    @Override
+    public List<Notice> selectByNUId(Integer nUId) {
+        return this.noticeMapper.selectByNUId(nUId);
+    }
 }

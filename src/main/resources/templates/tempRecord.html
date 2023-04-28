@@ -10,21 +10,22 @@
         <div th:replace="common::sidebar"></div>
 
         <div class="main-panel">
-            <table class="table table-bordered">
-                <thead class="thead-default">
-                <tr class="text-center">
-                    <th scope="col">编号</th><th scope="col">车牌号</th><th scope="col">入场时间</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="record:${tempRecords}" class="text-center">
-                    <th class="col-md-1" scope="row" th:text="${tempRecords.indexOf(record)} + 1"></th>
-                    <td th:text="${record.getTCarnum()}"></td>
-                    <td th:text="${record.getTIntime()}"></td>
-
-                </tr>
-                </tbody>
-            </table>
+            <div class="d-flex m-4">
+                <table class="table table-bordered">
+                    <thead class="thead-default">
+                        <tr class="text-center">
+                            <th scope="col">编号</th><th scope="col">车牌号</th><th scope="col">入场时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="record:${tempRecords}" class="text-center">
+                            <th class="col-md-1" scope="row" th:text="${tempRecords.indexOf(record)} + 1"></th>
+                            <td th:text="${record.getTCarnum()}"></td>
+                            <td th:text="${#dates.format(record.getTIntime(), 'yyyy年MM月dd日 HH:mm:ss')}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div th:replace="common::footbar"></div>

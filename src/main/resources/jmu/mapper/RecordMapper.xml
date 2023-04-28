@@ -39,7 +39,7 @@
     </insert>
 
     <insert id="insertTRecord" parameterType="jmu.vo.TempRecord">
-        insert into TempRecord values (null, #{tCarnum}, #{tIntime});
+        insert into TempRecord values (null, #{tCarnum}, #{tIntime}, 0);
     </insert>
 
     <delete id="deleteTRByCarnum" parameterType="String">
@@ -53,6 +53,18 @@
     <delete id="deleteByRId" parameterType="Integer">
         delete from Record where r_id = #{rId};
     </delete>
+
+    <update id="updateTempRecord" parameterType="jmu.vo.TempRecord">
+        update TempRecord set t_send = #{tSend} where t_id = #{tId};
+    </update>
+
+    <select id="selectBySend" parameterType="Boolean" resultType="jmu.vo.TempRecord">
+        select * from TempRecord where t_send = #{tSend};
+    </select>
+
+    <select id="selectRecordNumByDay" resultType="jmu.vo.DayRecord">
+        select DATE_FORMAT(r_intime, '%Y-%m-%d') as dayTime, count(r_id) as dayCount from Record where r_intime >= DATE_SUB(CURRENT_DATE (), INTERVAL  30 DAY ) group by dayTime;
+    </select>
 
 
 

@@ -1,66 +1,66 @@
 <!doctype html>
-<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+<html lang="cn" xmlns:th="http://www.thymeleaf.org" xmlns:util="urn:util">
 <head th:replace="~{common::commonHeader('公告')}"></head>
 <body>
-
 <div class="container-scroller">
-
     <div th:replace="common::topnav"></div>
     <div class="container-fluid page-body-wrapper">
         <div th:replace="common::sidebar"></div>
         <div class="main-panel">
-            <div class="d-flex flex-row-reverse" th:if="${session.Admin != null}">
+            <div class="d-flex flex-row m-4 mb-0"  th:if="${session.Admin != null}">
                 <div >
-                <button type="button" class="btn-primary btn mdi mdi-plus" data-toggle="modal" data-target="#myModal2">新增</button>
-                <!-- 模态框 -->
-                <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="myModalLabel2" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <!-- 模态框头部 -->
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel2">新增公告</h5>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="btn-primary btn mdi mdi-plus" data-toggle="modal" data-target="#myModal2">新增</button>
+                    <!-- 模态框 -->
+                    <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="myModalLabel2" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- 模态框头部 -->
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="myModalLabel2">新增公告</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- 模态框主体 -->
+                                <form th:action="@{/notice/insert}" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="nTitle2" class="col-form-label h4">标题</label>
+                                            <input type="text" class="form-control" name="nTitle" id="nTitle2">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nText2" class="col-form-label h4">内容</label>
+                                            <textarea class="form-control" name="nText" id="nText2"></textarea>
+                                        </div>
+                                        <input type="hidden" name="nId" th:value="0">
+                                        <input type="hidden" name="nUId" th:value="0">
+                                        <input type="hidden" name="nTime" th:value="null">
+                                    </div>
+                                    <!-- 模态框底部 -->
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                        <button type="submit" class="btn btn-primary">提交</button>
+                                    </div>
+                                </form>
                             </div>
-                            <!-- 模态框主体 -->
-                            <form th:action="@{/notice/insert}" method="post">
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <h4 for="nTitle" class="col-form-label">标题</h4>
-                                        <input type="text" class="form-control" name="nTitle">
-                                    </div>
-                                    <div class="form-group">
-                                        <h4 for="nText" class="col-form-label">内容</h4>
-                                        <textarea class="form-control" name="nText"></textarea>
-                                    </div>
-                                    <input type="hidden" name="nId" th:value="0">
-                                    <input type="hidden" name="nTime" th:value="null">
-                                </div>
-                                <!-- 模态框底部 -->
-                                <div class="modal-footer d-flex justify-content-center">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                                    <button type="submit" class="btn btn-primary">提交</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
-            <div >
+            <div class="d-flex m-4">
                 <table class="table table-bordered">
                     <thead class="thead-default">
-                        <tr class="text-center"><th scope="col">编号</th><th scope="col">标题</th><th scope="col">内容</th><th scope="col">发布时间</th><th scope="col" th:if="${session.Admin != null}">操作</th> </tr>
+                        <tr class="text-center"><th scope="col">编号</th><th scope="col">标题</th><th scope="col">内容</th><th scope="col">发布时间</th><th scope="col" th:if="${session.Admin != null}">可见范围</th><th scope="col" th:if="${session.Admin != null}">操作</th></tr>
                     </thead>
                     <tbody>
                         <tr th:each="notice:${notices}" class="text-center">
-                            <th class="col-md-1" scope="row" th:text="${notices.indexOf(notice)} + 1"></th>
-                            <td class="col-md-2" th:text="${notice.getNTitle()}"></td>
+                            <th class="col-1" scope="row" th:text="${notices.indexOf(notice)} + 1"></th>
+                            <td class="col-2" th:text="${notice.getNTitle()}"></td>
                             <td th:text="${notice.getNText()}"></td>
-                            <td class="col-md-2" th:text="${notice.getNTime()}"></td>
-                            <td class="col-md-3" th:if="${session.Admin != null}">
-                                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#myModal">编辑</button>
+                            <td class="col-2" th:text="${#dates.format(notice.getNTime(), 'yyyy年MM月dd日 HH:mm:ss')}"></td>
+                            <td class="col-1" th:if="${session.Admin != null}" th:text="${notice.getNUId()} == 0 ? '全体':'个人'"></td>
+                            <td class="col-2" th:if="${session.Admin != null}">
+                                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" th:data-target="'#myModal'+${notice.NId}">编辑</button>
                                 <!-- 模态框 -->
-                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:id="'myModal'+${notice.NId}" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <!-- 模态框头部 -->
@@ -77,7 +77,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="nText" class="col-form-label h4">内容</label>
-                                                    <textarea class="form-control" name="nText" id="nText" th:text="${notice.NText}"></textarea>
+                                                    <textarea class="form-control" name="nText" id="nText" th:value="${notice.NText}" th:text="${notice.NText}"></textarea>
                                                 </div>
                                                 <input type="hidden" name="nId" th:value="${notice.NId}">
                                             </div>
@@ -90,7 +90,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <a class="btn btn-outline-danger" type="button" th:href="@{'/notice/delete/' + ${notice.getNId()}}">删除</a>
                             </td>
                         </tr>
