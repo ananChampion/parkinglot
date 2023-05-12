@@ -29,11 +29,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="record:${records}" class="text-center">
+                            <tr th:each="record:${records}" class="text-center" th:with="rIntime=${#dates.format(record.getRIntime(), 'yyyy年MM月dd日 HH:mm:ss')}, rOuttime=${#dates.format(record.getROuttime(), 'yyyy年MM月dd日 HH:mm:ss')}">
                                 <th class="col-md-1" scope="row" th:text="${records.indexOf(record)} + 1"></th>
                                 <td th:if="${session.Admin != null}" th:text="${record.getRCarnum()}"></td>
-                                <td th:text="${#dates.format(record.getRIntime(), 'yyyy年MM月dd日 HH:mm:ss')}"></td>
-                                <td th:text="${#dates.format(record.getROuttime(), 'yyyy年MM月dd日 HH:mm:ss')}"></td>
+                                <td th:text="${rIntime}"></td>
+                                <td th:text="${rOuttime}"></td>
                                 <td th:text="${payments[records.indexOf(record)].getPSum()}"></td>
                                 <td th:if="${session.Admin != null}"> <a class="btn btn-danger" type="button" th:href="@{'/pay/delete/'+${record.getRId()}}">删除</a></td>
                             </tr>

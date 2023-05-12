@@ -66,7 +66,7 @@ public class UserController {
     private String userLogin(HttpServletRequest request, @RequestParam("uAccount") String uAccount, @RequestParam("uPwd") String uPwd, Model message){
         if (StringUtils.isEmpty(uAccount) || StringUtils.isEmpty(uPwd)) {
             message.addAttribute("msg","用户名或密码不能为空");
-            return "redirect:/user/goLogin";
+            return "/userLogin";
         }
         HashMap<String,String> hashMap = new HashMap<String,String>();
         hashMap.put("uAccount", uAccount);

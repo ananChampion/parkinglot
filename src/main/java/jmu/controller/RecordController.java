@@ -3,6 +3,9 @@ package jmu.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jmu.service.PlateRecognitionService;
 import jmu.service.RecordService;
 import jmu.vo.*;
@@ -22,6 +25,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/record")
@@ -175,7 +179,7 @@ public class RecordController {
         writer.finish();
     }
 
-    @RequestMapping(value = "/exportPayment", method = RequestMethod.GET)
+    @RequestMapping("/exportPayment")
     private String exportPayment(RedirectAttributes attributes){
         List<Record> records = this.recordService.queryRecordById();
         attributes.addFlashAttribute("records", records);

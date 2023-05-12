@@ -87,8 +87,6 @@ public class PaymentController {
         model.addAttribute("records", records);
         model.addAttribute("payments", payments);
         return "index";
-
-
     }
 
     @RequestMapping("/select/payment")
@@ -96,14 +94,8 @@ public class PaymentController {
         HttpSession session = request.getSession();
         List<String> timeList = new ArrayList<>();
         List<Payment> payments = getPayments(records, session);
-        for (Record record: records){
-            long totalm = (record.getROuttime().getTime()-record.getRIntime().getTime());
-            long m = 30*60*1000;
-            double time = 1.0 * totalm / (m*2);
-            DecimalFormat df = new DecimalFormat("0.0");
-            String result = df.format(time);
-            timeList.add(result);
-        }
+        getTimes(records, timeList);
+
         model.addAttribute("records", records);
         model.addAttribute("payments", payments);
         model.addAttribute("timeList", timeList);
@@ -119,14 +111,7 @@ public class PaymentController {
             rIdList.add(record.getRId());
         }
         List<Payment> payments = this.paymentService.queryPaymentByRid(rIdList);
-        for (Record record: records){
-            long totalm = (record.getROuttime().getTime()-record.getRIntime().getTime());
-            long m = 30*60*1000;
-            double time = 1.0 * totalm / (m*2);
-            DecimalFormat df = new DecimalFormat("0.0");
-            String result = df.format(time);
-            timeList.add(result);
-        }
+        getTimes(records, timeList);
         model.addAttribute("records", records);
         model.addAttribute("payments", payments);
         model.addAttribute("timeList", timeList);
@@ -156,12 +141,6 @@ public class PaymentController {
         return selectPaymentByRecords(records, model);
     }
 
-    @RequestMapping(value = "/paymentSum", produces = "application/json; charset=utf-8")
-    @ResponseBody
-    private List<DayPayment> paymentSum(){
-        return this.paymentService.selectSumByDay();
-    }
-
     @RequestMapping("/searchRecord")
     private String searchRecord(@ModelAttribute("records") List<Record> records, Model model){
         return selectPaymentByRecords(records, model);
@@ -179,8 +158,14 @@ public class PaymentController {
         return "index";
     }
 
+    @RequestMapping(value = "/paymentSum", produces = "application/json; charset=utf-8")
+    @ResponseBody
+    private List<DayPayment> paymentSum(){
+        return this.paymentService.selectSumByDay();
+    }
+
     @RequestMapping(value = "/export", method = RequestMethod.GET)
-    private void export(HttpServletResponse response, @ModelAttribute("records") List<Record> records) throws IOException {
+    private void exportPayment(HttpServletResponse response, @ModelAttribute("records") List<Record> records) throws IOException {
         // 设置响应头信息
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
@@ -194,14 +179,7 @@ public class PaymentController {
         }
         List<Payment> payments = this.paymentService.queryPaymentByRid(rIdList);
         List<String> timeList = new ArrayList<>();
-        for (Record record: records){
-            long totalm = (record.getROuttime().getTime()-record.getRIntime().getTime());
-            long m = 30*60*1000;
-            double time = 1.0 * totalm / (m*2);
-            DecimalFormat df = new DecimalFormat("0.0");
-            String result = df.format(time);
-            timeList.add(result);
-        }
+        getTimes(records, timeList);
 
         List<ExcelPayment> excelPayments = new ArrayList<>();
         for (int i = 0; i < records.size(); i++) {
@@ -219,5 +197,16 @@ public class PaymentController {
         WriteSheet writeSheet = EasyExcel.writerSheet("收费记录").build();
         writer.write(excelPayments, writeSheet);
         writer.finish();
+    }
+
+    private void getTimes(List<Record> records, List<String> timeList){
+        for (Record record: records){
+            long totalm = (record.getROuttime().getTime()-record.getRIntime().getTime());
+            long m = 30*60*1000;
+            double time = 1.0 * totalm / (m*2);
+            DecimalFormat df = new DecimalFormat("0.0");
+            String result = df.format(time);
+            timeList.add(result);
+        }
     }
 }
