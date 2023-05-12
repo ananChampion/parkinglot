@@ -20,7 +20,7 @@
     <foreach collection="list" item="rIdList" open="(" separator="," close=")" index="index">
         #{rIdList}
     </foreach>
-        order by r_id;
+        order by r_id desc ;
     </select>
 
     <select id="selectByRId" parameterType="Integer" resultType="jmu.vo.Payment">

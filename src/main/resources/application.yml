@@ -41,7 +41,7 @@ restTemplate:
   read-timeout: 10000
 
 api:
-  url: http://localhost:5000/LPR
+  url: http://127.0.0.1:8800/LPR
 
 
 

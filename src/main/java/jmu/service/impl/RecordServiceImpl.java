@@ -17,7 +17,6 @@ public class RecordServiceImpl implements RecordService {
     @Autowired
     private RecordMapper recordMapper;
 
-
     @Override
     public List<Record> queryRecord() {
         return this.recordMapper.queryRecord();
@@ -81,5 +80,10 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public List<DayRecord> selectRecordNumByDay() {
         return this.recordMapper.selectRecordNumByDay();
+    }
+
+    @Override
+    public List<Record> searchByCarnum(String carnum) {
+        return this.recordMapper.searchByCarnum(carnum);
     }
 }

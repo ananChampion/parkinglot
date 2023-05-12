@@ -13,8 +13,8 @@
                         <a th:href="@{/record/export}" class="btn btn-success">导出报表</a>
                     </div>
                     <div class="col-5">
-                        <form class="form-inline">
-                            <div class="form-group mx-sm-0 mb-2 col-9">
+                        <form class="form-inline" th:action="@{/record/searchRecord}">
+                            <div class="form-group mx-sm-0 mb-2 col-8">
                                 <input style="width: 100%" type="text" name="carnum" maxlength="8" class="form-control" placeholder="请输入要查询的车牌号">
                             </div>
                             <button type="submit" class="btn mb-2 btn-primary">搜索</button>
@@ -31,7 +31,7 @@
                         <tbody>
                             <tr th:each="record:${records}" class="text-center">
                                 <th class="col-md-1" scope="row" th:text="${records.indexOf(record)} + 1"></th>
-                                <td th:text="${record.getRCarnum()}"></td>
+                                <td th:if="${session.Admin != null}" th:text="${record.getRCarnum()}"></td>
                                 <td th:text="${#dates.format(record.getRIntime(), 'yyyy年MM月dd日 HH:mm:ss')}"></td>
                                 <td th:text="${#dates.format(record.getROuttime(), 'yyyy年MM月dd日 HH:mm:ss')}"></td>
                                 <td th:text="${payments[records.indexOf(record)].getPSum()}"></td>

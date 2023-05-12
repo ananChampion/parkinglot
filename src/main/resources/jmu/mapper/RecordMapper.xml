@@ -66,6 +66,9 @@
         select DATE_FORMAT(r_intime, '%Y-%m-%d') as dayTime, count(r_id) as dayCount from Record where r_intime >= DATE_SUB(CURRENT_DATE (), INTERVAL  30 DAY ) group by dayTime;
     </select>
 
+    <select id="searchByCarnum" resultType="jmu.vo.Record" parameterType="String">
+        select * from Record where r_carnum like concat('%', #{carnum}, '%');
+    </select>
 
 
 </mapper>

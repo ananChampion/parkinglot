@@ -12,6 +12,7 @@
                             <img th:src="@{/static/images/logo.svg}" alt="logo">
                         </div>
                         <h4 class="text-center">管理员登录</h4>
+                        <h6 th:class="${msg}? 'text-danger' : 'font-weight-light'" th:text="${msg}">先登录吧！</h6>
                         <form class="pt-3" th:action="@{/admin/login}">
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-lg" name="adId" id="adId" placeholder="账号">

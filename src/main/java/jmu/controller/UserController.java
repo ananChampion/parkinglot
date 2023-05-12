@@ -163,9 +163,10 @@ public class UserController {
 
     //查询用户类型
     @RequestMapping(value = "/userType")
-    private String userType(@RequestParam("carnum") String carnum, RedirectAttributes attributes){
-        if(carnum.equals(""))
+    private String userType(@RequestParam("carnum") String carnum, RedirectAttributes attributes, Model model){
+        if(carnum.equals("") || carnum.length() < 7 || carnum.length()>8)
         {
+            model.addAttribute("errormsg", "请输入正确的车牌号");
             return "home";
         } else {
             System.out.println(carnum);

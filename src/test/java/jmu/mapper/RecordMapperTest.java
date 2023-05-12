@@ -115,4 +115,11 @@ class RecordMapperTest {
       List<DayRecord> dayRecords = this.recordMapper.selectRecordNumByDay();
     System.out.println(dayRecords);
   }
+
+    @Test
+    void searchByCarnum(){
+        String carnum = "B";
+        List<Record> recordList = this.recordMapper.searchByCarnum(carnum);
+        System.out.println(recordList);
+    }
 }

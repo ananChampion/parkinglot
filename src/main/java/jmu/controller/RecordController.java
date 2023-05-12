@@ -56,7 +56,7 @@ public class RecordController {
         else {
             User user = (User) session.getAttribute("User");
             records = this.recordService.selectByCarnum(user.getUCarnum());
-            //TODO：查找支付记录
+            //查找支付记录
         }
         attributes.addFlashAttribute("records", records);
     }
@@ -173,6 +173,38 @@ public class RecordController {
         WriteSheet writeSheet = EasyExcel.writerSheet("停车记录").build();
         writer.write(records, writeSheet);
         writer.finish();
+    }
+
+    @RequestMapping(value = "/exportPayment", method = RequestMethod.GET)
+    private String exportPayment(RedirectAttributes attributes){
+        List<Record> records = this.recordService.queryRecordById();
+        attributes.addFlashAttribute("records", records);
+
+        return "redirect:/pay/export";
+    }
+
+    @RequestMapping("/searchRecord")
+    private String search(String carnum, RedirectAttributes attributes){
+        if (carnum.equals("")){
+            return "redirect:/record/selectRecord/index";
+        }
+        else {
+            List<Record> records = this.recordService.searchByCarnum(carnum);
+            attributes.addFlashAttribute("records", records);
+            return "redirect:/pay/searchRecord";
+        }
+    }
+
+    @RequestMapping("/searchPayment")
+    private String searchPayment(String carnum, RedirectAttributes attributes){
+        if (carnum.equals("")){
+            return "redirect:/record/selectRecord/payment";
+        }
+        else {
+            List<Record> records = this.recordService.searchByCarnum(carnum);
+            attributes.addFlashAttribute("records", records);
+            return "redirect:/pay/searchPayment";
+        }
     }
     //查找当前在库内车辆
     //TODO:时间排序

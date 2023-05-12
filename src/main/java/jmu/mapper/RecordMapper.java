@@ -24,5 +24,6 @@ public interface RecordMapper {
     public List<TempRecord> selectBySend(Boolean tSend);
     public Integer updateTempRecord(TempRecord tempRecord);
     public List<DayRecord> selectRecordNumByDay();
+    public List<Record> searchByCarnum(String carnum);
 
 }

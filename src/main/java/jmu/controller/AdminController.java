@@ -58,7 +58,7 @@ public class AdminController {
     private String adminLogin(HttpServletRequest request, @RequestParam("adId") String adId, @RequestParam("adPwd") String adPwd, Model message){
         if (StringUtils.isEmpty(adId) || StringUtils.isEmpty(adPwd)) {
             message.addAttribute("msg","用户名或密码不能为空");
-            return "redirect:/admin/goLogin";
+            return "adminLogin";
         }
         HashMap<String,String> hashMap = new HashMap<String,String>();
         hashMap.put("adId", adId);
@@ -73,7 +73,7 @@ public class AdminController {
         }
         else {
             message.addAttribute("msg","用户名或密码错误");
-            return "redirect:/admin/goLogin";
+            return "adminLogin";
         }
     }
 
